@@ -1,0 +1,43 @@
+# Core Framework
+Django==5.0.11
+djangorestframework==3.15.2
+
+
+# Authentication & Authorization
+django-allauth==65.3.1    # Multi-provider authentication
+django-allauth[mfa]       # Multi-factor authentication support
+PyJWT==2.10.1             # JWT token handling
+cryptography==46.0.5      # Cryptographic recipes and primitives
+argon2-cffi==23.1.0       # Argon2 password hashing (more secure than bcrypt)
+
+# Cryptographic Operations & Digital Signatures
+pycryptodome==3.21.0      # Cryptographic functions (RSA, AES, SHA)
+python-jose==3.4.0        # JOSE implementation (JWS, JWE, JWK)
+ecdsa==0.19.1             # Elliptic Curve Digital Signature Algorithm
+pynacl==1.5.0             # Networking and cryptography library (Ed25519 signatures)
+
+
+
+Pillow==11.1.0            # Image processing for QR codes
+
+# OTP & Two-Factor Authentication
+pyotp==2.9.0              # One-time password generation
+qrcode[pil]               # QR code for TOTP setup
+django-otp==1.5.2         # Pluggable OTP module for Django
+
+# Email/SMS Services (for OTP delivery)
+django-ses==4.2.0         # Amazon SES email backend
+
+
+
+# Audit Logging
+django-auditlog==3.0.0     # Track all model changes for audit trail
+structlog==25.2.0          # Structured logging for security events
+
+# Environment Configuration
+python-dotenv==1.0.1       # Environment variable management
+
+# API Documentation & Schema
+drf-yasg==1.21.10          # Swagger documentation
+drf-spectacular==0.28.0    # OpenAPI schema generation
+

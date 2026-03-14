@@ -1,0 +1,125 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yo_ballot"
+version = "0.1.0"
+description = "A secure electronic voting system with end-to-end verification"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" } 
+keywords = ["voting", "election", "cryptography", "security", "django"]
+
+authors = [
+    { name = "Hassan Kyeswa", email = "hassanprogrammer256@gmail.com" }
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Government",
+    "Topic :: Security :: Cryptography",
+    "Framework :: Django",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+# Core Dependencies
+dependencies = [
+    # Core Framework
+    "Django==5.0.11",
+    "djangorestframework==3.15.2",
+    
+    # Database
+    "psycopg2-binary==2.9.10",
+    "redis==5.2.1",
+    "django-redis==5.4.0",
+    
+    # Authentication & Authorization
+    "django-allauth==65.3.1",
+    "django-allauth[mfa]",
+    "PyJWT==2.10.1",
+    "cryptography==46.0.5",
+    "argon2-cffi==23.1.0",
+    
+    # Cryptographic Operations
+    "python-jose==3.4.0",
+
+    
+    # QR & Receipts
+    "Pillow==11.1.0",
+    
+    # OTP & 2FA
+    "pyotp==2.9.0",
+    "django-otp==1.5.2",
+    
+    # Email/SMS (optional)
+    "django-ses==4.0.2",
+
+    
+    # Security Middleware
+    "django-cors-headers==4.6.0",
+
+    # Environment
+    "python-dotenv==1.0.1",
+    
+    # API Documentation
+    "drf-spectacular==0.28.0",
+]
+
+# Optional dependencies for development
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.5",
+    "pytest-django==4.10.0",
+    "pytest-cov==6.1.0",
+    "factory-boy==3.3.3",
+    "black==24.10.0",
+    "ruff==0.9.10",
+    "mypy==1.15.0",
+]
+
+# Project URLs
+[project.urls]
+Homepage = "https://github.com/yourusername/e-voting-system"
+Repository = "https://github.com/yourusername/e-voting-system.git"
+Documentation = "https://e-voting-system.readthedocs.io/"
+Changelog = "https://github.com/yourusername/e-voting-system/releases"
+
+# Tool configurations
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C4", "ARG", "SIM"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.local"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "--strict-markers -n auto"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["*/tests/*", "*/migrations/*", "manage.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if __name__ == .__main__.:",
+]
