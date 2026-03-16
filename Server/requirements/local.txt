@@ -1,8 +1,0 @@
--r production.txt
-
-
-# Testing (Development only)
-pytest==8.3.5              # Testing framework
-pytest-django==4.10.0      # Django testing extensions
-pytest-cov==6.1.0          # Test coverage reporting
-factory-boy==3.3.3         # Test data generation
