@@ -1,5 +1,6 @@
 export interface candidatecard{
-    candidate_image?:string;
-    candidate_name: string;
-    votes?:number;
+    id:number;
+    image?:string;
+    name: string;
+    position:number;
 }

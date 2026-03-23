@@ -1,31 +1,55 @@
 // In your Vote component
 import { Grid } from '@mui/joy'
 import { motion } from 'framer-motion'
-import { dummyCandidates } from '../config'
 import CandidateCard from '../components/candidate_card'
+import { useEffect, useState } from 'react'
+import type { postsType } from '../types/store.types'
+import { PostsDataApi } from '../api/voting_init'
+
 
 const Vote = () => {
+
+
+const [posts,setPosts] = useState<postsType>([])
+
+
+useEffect(() => {
+const update = async() => {
+try {
+  await PostsDataApi().then((res) => {
+    setPosts(res)
+
+  })
+} catch (error) {
+  console.error({error})
+}
+
+  }
+
+  update()
+
+},[]);
   return (
     <div
+    id='vote'
       style={{
         height: '100vh',
         overflowY: 'scroll',
         scrollSnapType: 'y mandatory',
-        // optional: add smooth scrolling
         scrollBehavior: 'smooth'
       }}
     >
-      {dummyCandidates.map((_, index) => (
+      {posts.map((_, index) => (
         <div
           key={index}
           style={{
-            height: '100vh', // full viewport height
+            height: '100vh',
             width: '100%',
-            overflowY: 'auto', // internal scrolling if needed
-            scrollSnapAlign: 'start', // snap position
+            overflowY: 'auto',
+            scrollSnapAlign: 'start',
             padding: '20px',
             boxSizing: 'border-box',
-            backgroundColor: index % 2 === 0 ? '#f0f0f0' : '#ffffff', // optional background alternation
+            backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'azure',
             borderBottom: '1px solid #ccc'
           }}
         >
@@ -52,12 +76,14 @@ const Vote = () => {
                 borderRadius: '8px'
               }}
             >
-              {_.post}
+              {_.position}
             </motion.h1>
 
             <Grid container spacing={2} sx={{ marginTop: 2 }}>
               {_.candidates.map((candidate, index) => (
-                <Grid key={index} xs={6} md={4} xl={3}>
+                
+                <Grid key={index} xs={12} md={6} xl={3}>
+                 
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     whileInView={{
@@ -68,8 +94,11 @@ const Vote = () => {
                     viewport={{ once: true }}
                   >
                     <CandidateCard
-                      candidate_name={candidate.name}
-                      candidate_image={candidate.image}
+                    id={candidate.id}
+                    name={candidate.name}
+                    image={candidate.image}
+                    position={candidate.position}
+                 
                     />
                   </motion.div>
                 </Grid>

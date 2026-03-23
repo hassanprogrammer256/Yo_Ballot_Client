@@ -1,15 +1,20 @@
 import {Box, Button, Grid, Stack } from '@mui/joy'
-import {  FaUser } from 'react-icons/fa'
+import { FaHome, FaUserAlt} from 'react-icons/fa'
 import HowToVoteIcon from '@mui/icons-material/HowToVote'
-import { FaBars } from 'react-icons/fa6'
+import { FaBars} from 'react-icons/fa6'
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Yo_Ballot_Logo from '/logos/yo_ballot_logo.png'
+import { useAppDispatch, useAppSelector } from '../hooks/store_hooks'
+import { LogOutThunk } from '../features/voterSlice'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useAppDispatch()
+  const {refresh_token} = useAppSelector((state) => state.voterReducer)
+  const [isloggingout,setIsLoggingOut] = useState(false)
 
   const activeSection = location.hash ? location.hash.substring(1) : ''
   const isActive = (sectionId: string) => activeSection === sectionId
@@ -23,6 +28,20 @@ const Header = () => {
       navigate(path)
     }
     setMenuOpen(false)
+  }
+
+  const HandleLogout = async() => {
+  setIsLoggingOut(true)
+try {
+  const response =  await dispatch(LogOutThunk(refresh_token)).unwrap()
+if (response){
+  navigate('/')
+}
+} catch (error) {
+  console.log({error})
+}finally{
+  setIsLoggingOut(false)
+}
   }
 
   return (
@@ -104,7 +123,7 @@ const Header = () => {
           </Box>
 
           {/* Right — menu button */}
-          <Grid sx={{ position: 'relative' }}>
+          {location.pathname !== '/' && <Grid sx={{ position: 'relative' }}>
             <Button
               variant="soft"
               color="neutral"
@@ -138,8 +157,8 @@ const Header = () => {
                 <Button
                   variant="plain"
                   color={isActive('dashboard') ? 'primary' : 'neutral'}
-                  startDecorator={<HowToVoteIcon />}
-                  onClick={() => handleNavigation('/', '#dashboard')}
+                  startDecorator={<FaHome/>}
+                  onClick={() => handleNavigation('home', '#dashboard')}
                   sx={{
                     justifyContent: 'flex-start',
                     py: 1.5,
@@ -153,8 +172,8 @@ const Header = () => {
                 <Button
                   variant="plain"
                   color={isActive('vote') ? 'success' : 'neutral'}
-                  startDecorator={<FaUser />}
-                  onClick={() => handleNavigation('/', '#vote')}
+                  startDecorator={<HowToVoteIcon />}
+                  onClick={() => handleNavigation('home', '#vote')}
                   sx={{
                     justifyContent: 'flex-start',
                     py: 1.5,
@@ -164,9 +183,20 @@ const Header = () => {
                 >
                   Vote Now {isActive('vote') && '✓'}
                 </Button>
+                <Button
+                  variant="solid"
+                  color='danger'
+                  startDecorator={<FaUserAlt />}
+                  sx={{m:2}}
+                  onClick={HandleLogout}
+                  loading={isloggingout}
+        
+                >
+                  LogOut 
+                </Button>
               </Stack>
             )}
-          </Grid>
+          </Grid>}
         </Grid>
       </Box>
 

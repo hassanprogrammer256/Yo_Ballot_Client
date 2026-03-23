@@ -3,11 +3,15 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App'
+import { Provider } from 'react-redux'
+import { AppStore } from './app/store'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+<StrictMode>
+  <Provider store={AppStore}>
     <BrowserRouter>
-      <App />
+        <App />
     </BrowserRouter>
-  </StrictMode>,
+  </Provider>
+</StrictMode>,
 )
